@@ -1,4 +1,4 @@
-package om.books.inventory.enums;
+package com.books.inventory.enums;
 
 public enum UserRole {
     Admin,

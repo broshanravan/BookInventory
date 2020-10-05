@@ -1,4 +1,4 @@
-package om.books.inventory.brans;
+package com.books.inventory.beans;
 
 
 import org.springframework.boot.context.properties.ConfigurationProperties;

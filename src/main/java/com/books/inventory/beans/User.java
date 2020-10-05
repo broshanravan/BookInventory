@@ -1,7 +1,7 @@
-package om.books.inventory.brans;
+package com.books.inventory.beans;
 
 
-import om.books.inventory.enums.UserRole;
+import com.books.inventory.enums.UserRole;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 

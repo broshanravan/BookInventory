@@ -1,4 +1,4 @@
-package om.books.inventory.controllers;
+package com.books.inventory.controllers;
 
 public class BookInventoryController {
 

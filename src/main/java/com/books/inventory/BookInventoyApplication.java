@@ -1,4 +1,4 @@
-package om.books.inventory;
+package com.books.inventory;
 
 
 import org.springframework.boot.SpringApplication;
