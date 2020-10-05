@@ -4,10 +4,7 @@ package com.books.inventory.controllers;
 import com.books.inventory.beans.Book;
 import com.books.inventory.data.BooksData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.books.inventory.beans.Author;
 
 import java.util.List;
@@ -39,8 +36,8 @@ public class BookInventoryController {
         return booksList;
     }
 
-    @PostMapping("/books/{authorId}")
-    public void deteteBookByAuthor(@PathVariable String authorName) {
+    @PostMapping("/books/Remove/{userId}/{authorId}")
+    public void deteteBookByAuthor(@RequestBody int userId, @RequestBody int  authorId) {
 
     }
 }

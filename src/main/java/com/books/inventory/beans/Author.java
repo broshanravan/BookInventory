@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties("BookInventory")
 public class Author {
-    int authorId;
-    String firstName;
-    String surname;
-    int NumberOfBooks;
+    private int authorId;
+    private String firstName;
+    private String surname;
+    private int NumberOfBooks;
 
     public Author(){
 
