@@ -15,5 +15,9 @@ public interface BooksData {
 
     public void removeAuthor(int authorIdIn);
 
-    public boolean authorHasBooksAssosiated(int authorIdIn);
+    public boolean authorHasBooksAssociated(int authorIdIn);
+
+    public boolean authorExists(int authorId);
+
+    public Author getAuthorById(int authorId);
 }

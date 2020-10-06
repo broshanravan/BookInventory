@@ -23,7 +23,7 @@ public class BooksDataImpl implements BooksData{
      * @param authorIdIn
      * @return
      */
-    public boolean authorHasBooksAssosiated(int authorIdIn){
+    public boolean authorHasBooksAssociated(int authorIdIn){
         Set<Integer> keySet = libraryBooks.keySet();
         for(Integer key : keySet) {
             Book book = libraryBooks.get(key);
@@ -31,9 +31,33 @@ public class BooksDataImpl implements BooksData{
                 return true;
             }
         }
-
         return false;
+    }
 
+    /**
+     * before conduction any operation on the author checks
+     * if the author id is valid
+     * @param authorId
+     * @return
+     */
+    public boolean authorExists(int authorId) {
+        Author author = getAuthorById(authorId);
+        if (author ==null){
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
+     * Retrieves author details from the DB
+     * using the ID
+     * @param authorId
+     * @return
+     */
+    public Author getAuthorById(int authorId){
+        Author author = authors.get(authorId);
+        return  author;
     }
 
     /**
@@ -42,9 +66,9 @@ public class BooksDataImpl implements BooksData{
      * @param authorIdIn
      */
     public void removeAuthor(int authorIdIn) {
-        if(!authorHasBooksAssosiated(authorIdIn)) {
-            libraryBooks.remove(new Integer(authorIdIn));
-        }
+        Author author =authors.get(authorIdIn);
+        System.out.println("REMOVING AUTHOR" + author.getFirstName()+ " " + author.getSurname() + " WITH ID OF::::::"  + authorIdIn);
+        authors.remove(new Integer(authorIdIn));
     }
 
     /**
@@ -59,10 +83,11 @@ public class BooksDataImpl implements BooksData{
         List<Book> booksList = new LinkedList<Book>();
 
         for  (int i =startingIndex; i< startingIndex + limit ; i++ ){
-            Book book = libraryBooks.get(i);
-            booksList.add(book);
-            System.out.println(i);
-            System.out.println(book.getBookName());
+            if(i<= libraryBooks.size()) {
+                Book book = libraryBooks.get(i);
+                booksList.add(book);
+                System.out.println(book.getBookName());
+            }
         }
 
         return booksList;
@@ -80,7 +105,9 @@ public class BooksDataImpl implements BooksData{
         List<Author> authorsList = new LinkedList<Author>();
 
         for  (int i =startingIndex; i< startingIndex + limit ; i++ ){
-            authorsList.add(authors.get(i));
+            if(i <= authors.size()) {
+                authorsList.add(authors.get(i));
+            }
         }
 
         return authorsList;
@@ -98,21 +125,20 @@ public class BooksDataImpl implements BooksData{
     public List<Book>  getLimitedNumberOfBooksByAuthor(int startingIndex, int authorId,int limit){
         List<Book> booksList = new LinkedList<Book>();
 
-        for  (int i =startingIndex; i<libraryBooks.size()  ; i++ ){
-            Book book = libraryBooks.get(i);
-            booksList.add(book);
-            System.out.println(i);
-            System.out.println(book.getBookName());
-            if(booksList.size()>=limit){
-                break;
+        for  (int i = startingIndex; i < libraryBooks.size()  ; i++ ){
+            if(i<= libraryBooks.size()) {
+                Book book = libraryBooks.get(i);
+                booksList.add(book);
+                System.out.println(i);
+                System.out.println(book.getBookName());
+                if (booksList.size() >= limit) {
+                    break;
+                }
             }
 
         }
 
-
-
         return booksList;
-
     }
 
     /**
@@ -123,7 +149,7 @@ public class BooksDataImpl implements BooksData{
 
     static{
 
-        /** First Creating all the authers and put into the Datastor of theirown */
+        /** First Creating all the authers and put into the Datastor of their own */
         Author JawaharlalNehru = new Author(1,"Jawaharlal"," Nehru",2);
         authors.put(JawaharlalNehru.getAuthorId(), JawaharlalNehru);
 
@@ -141,6 +167,9 @@ public class BooksDataImpl implements BooksData{
 
         Author romianRolland = new Author(6,"Romian"," Rolland",1);
         authors.put(romianRolland.getAuthorId(),romianRolland);
+
+        Author jKRolling = new Author(7,"JK"," Rolling",3);
+        authors.put(jKRolling.getAuthorId(), jKRolling);
 
 
         /** No wreating the books for each aouthor and storing it into a separate data source */

@@ -1,12 +1,12 @@
 package com.books.inventory.controllers;
 
-
 import com.books.inventory.beans.Book;
 import com.books.inventory.beans.User;
 import com.books.inventory.data.BooksData;
 import com.books.inventory.data.Personnel;
 import com.books.inventory.enums.UserRole;
 import com.books.inventory.exceptions.ForbiddenException;
+import com.books.inventory.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.books.inventory.beans.Author;
@@ -32,30 +32,33 @@ public class BookInventoryController {
     @GetMapping("/authors/{startingIndex}/{limit}")
     public List<Author> getAuthers(@PathVariable int startingIndex, @PathVariable int limit) {
         List<Author> authorsList = booksInventory.getLimitedNumberOfAuthor(startingIndex, limit);
-
         return authorsList;
     }
 
     @GetMapping("/author/books/{startingIndex}/{authorId}/{limit}")
-    public List<Book> getLimitedNumberOfBooksByAuthor(@PathVariable int authorId, @PathVariable int limit, int startingIndex) {
+    public List<Book> getLimitedNumberOfBooksByAuthor(@PathVariable int authorId, @PathVariable int limit, @PathVariable  int startingIndex) {
+        if(!booksInventory.authorExists(authorId)){
+            throw new ResourceNotFoundException("Author does not exist");
+        }
         List<Book> booksList = booksInventory.getLimitedNumberOfBooksByAuthor(startingIndex, authorId, limit);
-
-
+        if(startingIndex > booksList.size()){
+            throw new ForbiddenException("index not valid");
+        }
         return booksList;
     }
 
-    @DeleteMapping("/books/remove/{userId}/{authorId}")
-    public void deteteBookByAuthor(@PathVariable int userId, @PathVariable int  authorId) {
+    @DeleteMapping("/authors/remove/{userId}/{authorId}")
+    public void removeAuthor(@PathVariable int userId, @PathVariable int  authorId) {
         User user = personnel.getUser(userId);
         if(user.getUserRole() != UserRole.Admin){
             throw new ForbiddenException("User in not an Administrator");
-
-        }else if(booksInventory.authorHasBooksAssosiated(authorId)){
+        }else if(!booksInventory.authorExists(authorId)){
+            throw new ResourceNotFoundException("Author does not exist");
+        }else if(booksInventory.authorHasBooksAssociated(authorId)){
             throw new ForbiddenException("Author has books associated to it in the Database");
         } else{
             booksInventory.removeAuthor(authorId);
         }
-
     }
 }
 

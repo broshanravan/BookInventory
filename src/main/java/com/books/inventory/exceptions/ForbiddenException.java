@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ForbiddenException extends RuntimeException {
 
     public ForbiddenException(String exceptionMessage){
-
+        super(exceptionMessage);
     }
 
-    private static final long serialVersionUID = 5709495547407829616L;
 
 }
