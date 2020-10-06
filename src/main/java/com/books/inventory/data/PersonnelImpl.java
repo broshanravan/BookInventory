@@ -2,16 +2,18 @@ package com.books.inventory.data;
 
 import com.books.inventory.beans.User;
 import com.books.inventory.enums.UserRole;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PersonnelImpl {
+@Component
+public class PersonnelImpl implements Personnel{
 
 
     private static Map<Integer, User> systemUsers = new HashMap<Integer,User>();
 
-    public User GetUser(int userId){
+    public User getUser(int userId){
         User user = systemUsers.get(userId);
         return user;
     }

@@ -6,6 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public interface Personnel {
-    public User GetUser(int userId);
+    public User getUser(int userId);
 
 }

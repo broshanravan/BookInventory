@@ -12,4 +12,8 @@ public interface BooksData {
     public List<Author> getLimitedNumberOfAuthor(int startIndex,int autherCount);
 
     public List<Book>  getLimitedNumberOfBooksByAuthor(int startInex, int authorId, int limit);
+
+    public void removeAuthor(int authorIdIn);
+
+    public boolean authorHasBooksAssosiated(int authorIdIn);
 }

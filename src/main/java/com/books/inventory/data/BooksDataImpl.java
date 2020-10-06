@@ -4,10 +4,7 @@ package com.books.inventory.data;
 import com.books.inventory.beans.Book;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.books.inventory.beans.Author;
 
@@ -18,6 +15,37 @@ public class BooksDataImpl implements BooksData{
     private static Map<Integer, Book> libraryBooks = new HashMap<Integer,Book>();
     private static Map<Integer,Author> authors = new HashMap<Integer,Author>();
 
+
+    /**
+     * This methid finds out if there is a book
+     * associated with an author,
+     * in which case It will prevennt the deletion of the puther
+     * @param authorIdIn
+     * @return
+     */
+    public boolean authorHasBooksAssosiated(int authorIdIn){
+        Set<Integer> keySet = libraryBooks.keySet();
+        for(Integer key : keySet) {
+            Book book = libraryBooks.get(key);
+            if(authorIdIn == book.getAuthorId()){
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+    /**
+     * deletes record with provider key
+     * from author map
+     * @param authorIdIn
+     */
+    public void removeAuthor(int authorIdIn) {
+        if(!authorHasBooksAssosiated(authorIdIn)) {
+            libraryBooks.remove(new Integer(authorIdIn));
+        }
+    }
 
     /**
      * * getting a limited number of books from an
