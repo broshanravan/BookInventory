@@ -23,30 +23,60 @@ public class BookInventoryController {
     @Autowired
     Personnel personnel;
 
-    @GetMapping("/books/{pageNumber}/{limit}")
-    public List<Book> getBooks(@PathVariable int pageNumber, @PathVariable int limit) {
-        List<Book> booksList = booksInventory.getLimitedNumberOfBooks(pageNumber, limit);
+    /**
+     * Retrieves limited number of Books
+     * according to the page index
+     * @param pageIndex
+     * @param limit
+     * @return
+     */
+    @GetMapping("/books/{pageIndex}/{limit}")
+    public List<Book> getBooks(@PathVariable int pageIndex, @PathVariable int limit) {
+        List<Book> booksList = booksInventory.getLimitedNumberOfBooks(pageIndex, limit);
         return booksList;
     }
 
-    @GetMapping("/authors/{pageNumber}/{limit}")
-    public List<Author> getAuthers(@PathVariable int pageNumber, @PathVariable int limit) {
-        List<Author> authorsList = booksInventory.getLimitedNumberOfAuthor(pageNumber, limit);
+    /**
+     * Retrieves limited number of Authers
+     * according to the page index
+     * @param pageIndex
+     * @param limit
+     * @return
+     */
+    @GetMapping("/authors/{pageIndex}/{limit}")
+    public List<Author> getAuthers(@PathVariable int pageIndex, @PathVariable int limit) {
+        List<Author> authorsList = booksInventory.getLimitedNumberOfAuthor(pageIndex, limit);
         return authorsList;
     }
 
-    @GetMapping("/author/books/{startingIndex}/{authorId}/{limit}")
-    public List<Book> getLimitedNumberOfBooksByAuthor(@PathVariable int authorId, @PathVariable int limit, @PathVariable  int startingIndex) {
+    /**
+     * Retrieves limited number of books
+     * for a particular author
+     * according to the page index
+     * @param pageIndex
+     * @param authorId
+     * @param limit
+     * @return
+     */
+    @GetMapping("/author/books/{pageIndex}/{authorId}/{limit}")
+    public List<Book> getLimitedNumberOfBooksByAuthor( @PathVariable  int pageIndex, @PathVariable int authorId, @PathVariable int limit) {
         if(!booksInventory.authorExists(authorId)){
             throw new ResourceNotFoundException("Author does not exist");
         }
-        List<Book> booksList = booksInventory.getLimitedNumberOfBooksByAuthor(startingIndex, authorId, limit);
-        if(startingIndex > booksList.size()){
+        List<Book> booksList = booksInventory.getLimitedNumberOfBooksByAuthor(pageIndex, authorId, limit);
+        if(pageIndex > booksList.size()){
             throw new ForbiddenException("index not valid");
         }
         return booksList;
     }
 
+    /**
+     * Removes an author from the database
+     * in case there are no book in the database
+     * associated with that author
+     * @param userId
+     * @param authorId
+     */
     @DeleteMapping("/authors/remove/{userId}/{authorId}")
     public void removeAuthor(@PathVariable int userId, @PathVariable int  authorId) {
         User user = personnel.getUser(userId);
