@@ -23,15 +23,15 @@ public class BookInventoryController {
     @Autowired
     Personnel personnel;
 
-    @GetMapping("/books/{startingIndex}/{limit}")
-    public List<Book> getBooks(@PathVariable int startingIndex, @PathVariable int limit) {
-        List<Book> booksList = booksInventory.getLimitedNumberOfBooks(startingIndex, limit);
+    @GetMapping("/books/{pageNumber}/{limit}")
+    public List<Book> getBooks(@PathVariable int pageNumber, @PathVariable int limit) {
+        List<Book> booksList = booksInventory.getLimitedNumberOfBooks(pageNumber, limit);
         return booksList;
     }
 
-    @GetMapping("/authors/{startingIndex}/{limit}")
-    public List<Author> getAuthers(@PathVariable int startingIndex, @PathVariable int limit) {
-        List<Author> authorsList = booksInventory.getLimitedNumberOfAuthor(startingIndex, limit);
+    @GetMapping("/authors/{pageNumber}/{limit}")
+    public List<Author> getAuthers(@PathVariable int pageNumber, @PathVariable int limit) {
+        List<Author> authorsList = booksInventory.getLimitedNumberOfAuthor(pageNumber, limit);
         return authorsList;
     }
 
@@ -60,6 +60,7 @@ public class BookInventoryController {
             booksInventory.removeAuthor(authorId);
         }
     }
+
 }
 
 

@@ -75,18 +75,24 @@ public class BooksDataImpl implements BooksData{
      * * getting a limited number of books from an
      * specific point index to different
      * page nymbers
-     * @param startingIndex
+     * @param pageNumber
      * @param limit
      * @return
      */
-    public List<Book> getLimitedNumberOfBooks(int startingIndex, int limit){
+    public List<Book> getLimitedNumberOfBooks(int pageNumber, int limit){
         List<Book> booksList = new LinkedList<Book>();
 
-        for  (int i =startingIndex; i< startingIndex + limit ; i++ ){
-            if(i<= libraryBooks.size()) {
-                Book book = libraryBooks.get(i);
-                booksList.add(book);
-                System.out.println(book.getBookName());
+        int numberOfPages = getNumberOfPages(libraryBooks.size(),limit);
+
+        if(pageNumber > numberOfPages){
+            pageNumber = numberOfPages;
+        }
+
+        int pageRecordStartIndex = pageNumber * limit - 1;
+        int pageRecordEndIndex =  (pageNumber + 1) * limit - 1;
+        for  (int i = pageRecordStartIndex ; i <= pageRecordEndIndex ; i++ ){
+            if(i <= libraryBooks.size()) {
+                booksList.add(libraryBooks.get(i));
             }
         }
 
@@ -97,14 +103,23 @@ public class BooksDataImpl implements BooksData{
      * getting a limited number of Authors from an
      * specific point index to different
      * page nymbers
-     * @param startingIndex
+     * @param pageNumber
      * @param limit
      * @return
      */
-    public List<Author> getLimitedNumberOfAuthor(int startingIndex,int limit){
+    public List<Author> getLimitedNumberOfAuthor(int pageNumber,int limit){
+
         List<Author> authorsList = new LinkedList<Author>();
 
-        for  (int i =startingIndex; i< startingIndex + limit ; i++ ){
+        int numberOfPages = getNumberOfPages(authors.size(),limit);
+
+        if(pageNumber > numberOfPages){
+            pageNumber = numberOfPages;
+        }
+
+        int pageRecordStartIndex = pageNumber * limit - 1 ;
+        int pageRecordEndIndex =  (pageNumber + 1) * limit - 1;
+        for  (int i = pageRecordStartIndex ; i <= pageRecordEndIndex ; i++ ){
             if(i <= authors.size()) {
                 authorsList.add(authors.get(i));
             }
@@ -139,6 +154,22 @@ public class BooksDataImpl implements BooksData{
         }
 
         return booksList;
+    }
+
+
+    /**
+     * to get number of pages for a record set
+     * @param numberOfRecords
+     * @param recordsPerPage
+     * @return
+     */
+
+    private int getNumberOfPages(int numberOfRecords, int recordsPerPage){
+        int numberOfPages = numberOfRecords/recordsPerPage;
+        if(numberOfRecords % recordsPerPage != 0){
+            numberOfPages =numberOfPages + 1;
+        }
+        return numberOfPages;
     }
 
     /**

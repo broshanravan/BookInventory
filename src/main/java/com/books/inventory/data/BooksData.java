@@ -9,7 +9,7 @@ public interface BooksData {
 
     public List<Book> getLimitedNumberOfBooks(int startIndex, int limit);
 
-    public List<Author> getLimitedNumberOfAuthor(int startIndex,int autherCount);
+    public List<Author> getLimitedNumberOfAuthor(int paageNumber,int limit);
 
     public List<Book>  getLimitedNumberOfBooksByAuthor(int startInex, int authorId, int limit);
 
